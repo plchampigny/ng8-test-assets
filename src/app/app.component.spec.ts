@@ -1,12 +1,14 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        HttpClientModule
       ],
       declarations: [
         AppComponent
@@ -31,5 +33,16 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain('Welcome to ng8-test-assets!');
+  });
+
+  it('should get test.json', async () => {
+    const client: HttpClient = TestBed.get(HttpClient);
+
+    try {
+      const result = await client.get('/assets/test.json').toPromise();
+    } catch (err) {
+      fail(err);
+    }
+
   });
 });
